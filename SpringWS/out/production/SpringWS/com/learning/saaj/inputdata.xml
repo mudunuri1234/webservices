@@ -1,0 +1,3 @@
+<ns1:getEmployee xmlns:ns1="http://jaxws.ws.learning.com/">
+    <employeeId>666666</employeeId>
+</ns1:getEmployee>

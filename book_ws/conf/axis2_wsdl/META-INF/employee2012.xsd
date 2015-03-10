@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://axis2.ws.learning.com/provider/employeeService/employee/getEmployeeAddress/2012/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://axis2.ws.learning.com/provider/employeeService/employee/getEmployeeAddress/2012/"
+           elementFormDefault="unqualified"
+           attributeFormDefault="unqualified" version="1.0">
+    <xs:complexType name="EmployeeAddressRequest_Type">
+		<xs:sequence>
+			<xs:element name="employeeId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="getEmployeeAddress" type="EmployeeAddressRequest_Type">
+		<xs:annotation>
+			<xs:documentation>Request of the Employee service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EmployeeAddressOutput_Type">
+		<xs:sequence>
+			<xs:element name="address" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmployeeAddressResponse_Type">
+		<xs:sequence>
+			<xs:element name="info" type="EmployeeAddressOutput_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The information returned within the response</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="getEmployeeAddressResponse" type="EmployeeAddressResponse_Type">
+		<xs:annotation>
+			<xs:documentation>Results of the Employee service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

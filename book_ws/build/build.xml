@@ -1,0 +1,227 @@
+<project name="WS Book demo (WS)" basedir=".." default="compile">
+
+    <!-- Initializing the project directories -->
+    <property name="build.dir" value="${basedir}/build"/>
+    <property file="${build.dir}/build.properties"/>
+
+    <property name="war-name" value="wsbook.war"/>
+    <property name="aar-name" value="employee.aar"/>
+    <property name="aar-name-wsdl-java" value="employee.aar"/>
+
+    <property name="library.dir" value="${basedir}/lib"/>
+    <property name="target.dir" value="${basedir}/target"/>
+    <property name="source.dir" value="${basedir}/src"/>
+    <property name="class.dir" value="${basedir}/classes"/>
+    <property name="output.dir" value="${basedir}/output1"/>
+    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="sqlmaps.dir" value="${class.dir}/conf/sqlmaps"/>
+    <property name="axis2dir.dir" value="${basedir}/classes/com/learning/axis2"/>
+
+    <property name="web.dir" value="${basedir}/webcontent"/>
+    <property name="velocity.dir" value="${web.dir}/vm"/>
+    <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
+
+    <property name="ibatis.dir" value="${basedir}/conf/ibatis"/>
+    <property name="conf.spring.dir" value="${basedir}/conf/spring"/>
+
+    <property name="wsdl-name" value="employee.wsdl"/>
+    <property name="wsdl-path" value="${build.dir}/${wsdl-name}"/>
+    <property name="build-gen" location="${build.dir}/gen"/>
+    <property name="package-name" value="com.learning.ws.jaxws.wsdl2java"/>
+    <property name="package-path" value="com/learning/ws/jaxws/wsdl2java"/>
+
+
+    <!-- Setting the project classpath - referring to the lib directory -->
+    <path id="build.classpath">
+        <fileset dir="${library.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${class.dir}"/>
+        <mkdir dir="${output.dir}"/>
+        <filter token="contextApp" value="${context.path}"/>
+        <condition property="contextRoot" value="${context.path}">
+            <not>
+                <equals arg1="" arg2="${context.path}"/>
+            </not>
+        </condition>
+        <condition property="contextRoot" value="/">
+            <equals arg1="" arg2="${context.path}"/>
+        </condition>
+        <filter token="contextRoot" value="${contextRoot}"/>
+    </target>
+
+    <!-- Target for compiling the source code -->
+    <target name="compile" depends="init">
+        <javac debug="on" nowarn="on" deprecation="true" destdir="${class.dir}" includes="**/*.java"
+               srcdir="${source.dir}" source="1.6" target="1.6">
+            <classpath>
+                <path refid="build.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Target used for cleanup - It deletes the classes and generated war files -->
+    <target name="clean" description="delete all compiled objects">
+        <delete dir="${class.dir}"/>
+        <delete dir="${output.dir}"/>
+    </target>
+
+    <!-- Target used for cleanup -->
+    <!--<target name="jar" depends="compile">-->
+    <!--<jar jarfile="${output.dir}/dlp.jar" update="false">-->
+    <!--<fileset dir="${class.dir}" includes="**/*.class"/>-->
+    <!--</jar>-->
+    <!--</target>-->
+
+    <!-- Generating the war file -->
+    <target name="war" depends="compile">
+        <!--<mkdir dir="${web.dir}/WEB-INF/classes/conf/sqlmaps"/>-->
+        <!--<copy todir="${web.dir}/WEB-INF/classes/conf/sqlmaps">-->
+        <!--<fileset dir="${ibatis.dir}" includes="*.xml"/>-->
+        <!--</copy>-->
+        <war warfile="${output.dir}/${war-name}" update="false" webxml="${webinf.dir}/web.xml">
+            <webinf dir="${webinf.dir}" includes="*" excludes="web.xml"/>
+            <webinf dir="${basedir}/conf/spring" includes="*"/>
+            <webinf dir="${basedir}/conf" includes="**/*.wsdl"/>
+            <classes dir="${class.dir}" includes="**/*.class, *.xml"/>
+            <classes dir="${resources.dir}" includes="*.properties"/>
+            <classes dir="${build.dir}" includes="version.properties"/>
+            <lib dir="${library.dir}" includes="*.jar" excludes="log4j.jar"/>
+
+            <fileset dir="${velocity.dir}"/>
+            <fileset dir="${web.dir}" includes="images/**"/>
+            <fileset dir="${web.dir}" includes="js/**"/>
+            <fileset dir="${web.dir}" includes="css/**"/>
+        </war>
+    </target>
+
+    <target name="REST_WAR" depends="compile">
+        <!--<mkdir dir="${web.dir}/WEB-INF/classes/conf/sqlmaps"/>-->
+        <!--<copy todir="${web.dir}/WEB-INF/classes/conf/sqlmaps">-->
+        <!--<fileset dir="${ibatis.dir}" includes="*.xml"/>-->
+        <!--</copy>-->
+        <war warfile="${output.dir}/${war-name}" update="false" webxml="${webinf.dir}/web.xml">
+            <webinf dir="${webinf.dir}" includes="*" excludes="web.xml"/>
+            <webinf dir="${basedir}/conf/spring" includes="*"/>
+            <classes dir="${class.dir}" includes="**/rest/*.class, **/util/*.class, **/velocity/*.class ,*.xml"/>
+            <classes dir="${resources.dir}" includes="*.properties"/>
+            <classes dir="${build.dir}" includes="version.properties"/>
+            <lib dir="${library.dir}" includes="*.jar" excludes="log4j.jar"/>
+
+            <fileset dir="${velocity.dir}"/>
+            <fileset dir="${web.dir}" includes="images/**"/>
+            <fileset dir="${web.dir}" includes="js/**"/>
+            <fileset dir="${web.dir}" includes="css/**"/>
+        </war>
+    </target>
+
+
+    <!-- Apache-CXF - Generate and compile JAX-WS/JAXB code from WSDL -->
+    <target name="wsdl2java_cxf">
+        <echo message="Running WSDL2Java task"/>
+        <delete quiet="true" dir="${build-gen}"/>
+        <mkdir dir="${build-gen}"/>
+        <java classpathref="build.classpath" fork="true" classname="org.apache.cxf.tools.wsdlto.WSDLToJava">
+            <!-- -d parameter sets the output root directory -->
+            <arg value="-d"/>
+            <arg value="${source.dir}"/>
+            <!-- -p parameter gives the package for CXF code generation -->
+            <arg value="-p"/>
+            <arg value="${package-name}"/>
+            <!-- -validate parameter requests WSDL validation before generation -->
+            <arg value="-validate"/>
+            <!-- actual input WSDL -->
+            <arg value="${wsdl-path}"/>
+        </java>
+        <!-- Compile the generated code -->
+        <mkdir dir="${build-gen}/bin"/>
+        <javac srcdir="${source.dir}" destdir="${build-gen}/bin" debug="true">
+            <classpath>
+                <path refid="build.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Axis2 - Generating the aar file for code first approach -->
+    <target name="aar_javatowsdl" depends="compile">
+        <jar jarfile="${output.dir}/${aar-name}" update="false">
+            <fileset dir="${class.dir}"
+                     includes="**/axis2/Employee.class, **/axis2/EmployeeFault.class,
+                     **/axis2/EmployeeService.class, **/axis2/EmployeeServiceImpl.class"/>
+            <fileset dir="${basedir}/conf/axis2" includes="**/services.xml"/>
+            <!--<fileset dir="${basedir}" includes="lib/*.jar"/>-->
+        </jar>
+    </target>
+
+    <!-- Apache-Axis2 - Generate and compile JAX-WS/JAXB code from WSDL -->
+    <target name="wsdl2java_Axis2">
+        <echo message="Generating code using axis2 wsdlfile"/>
+        <java classname="org.apache.axis2.wsdl.WSDL2Java" fork="true">
+            <classpath refid="build.classpath"/>
+            <!-- -d parameter specifies the databinding type -->
+            <arg value="-d"/>
+            <arg value="xmlbeans"/>
+            <!-- location of wsdl file-->
+            <arg value="-uri"/>
+            <arg file="C:/projects/Learning/book_ws/conf/axis2_wsdl/META-INF/employee_demographics.wsdl"/>
+            <!-- Generates server side code -->
+            <arg value="-ss"/>
+            <!-- Generates all the classes skeletons and stubs-->
+            <arg value="-g"/>
+            <!-- use our own services.xml instead of generate <arg value="-sd" /> -->
+            <!-- place where generated java files copied to -->
+            <!--<arg value="-o"/>-->
+            <!--<arg file="C:/output"/>-->
+            <!-- -p parameter gives the package for CXF code generation -->
+            <!--<arg value="-p"/>-->
+            <!--<arg value="com.learning.ws.axis2.wsdl2java"/>-->
+        </java>
+    </target>
+
+    <!-- Axis2 - Generating the aar file for WSDL first approach -->
+    <target name="aar_axis2_for_deploy_wsdl2java" depends="compile">
+        <jar jarfile="${output.dir}/${aar-name-wsdl-java}" update="false">
+            <fileset dir="${class.dir}" includes="**/axis2/**"/>
+            <fileset dir="${basedir}/conf/axis2_wsdl" includes="**/*.xml, **/*.wsdl, **/*.xsd"/>
+            <fileset dir="${basedir}" includes="lib/allxmltypes.jar"/>
+        </jar>
+    </target>
+
+    <!-- Creating a jar file which contains all Axis2 dependent classes -->
+    <target name="make_jar_for_axis2_generated" depends="compile">
+        <jar jarfile="${output.dir}/allxmltypes.jar" update="false">
+            <fileset dir="${basedir}/resources" includes="**/**"/>
+            <fileset dir="${class.dir}" includes="org/**"/>
+        </jar>
+    </target>
+
+    <!-- Axis2 - Generating the aar file for Axis2 module demo -->
+    <target name="make_logging_module">
+        <jar jarfile="${output.dir}/loggingmodule.mar" update="false">
+            <fileset dir="${class.dir}" includes="**/axis2/LogModule.class, **/axis2/LogHandler.class "/>
+            <fileset dir="${basedir}/conf/axis2" includes="**/module.xml"/>
+        </jar>
+    </target>
+
+    <!-- Axis2 - Generating the aar file for Axis2 jax-ws demo -->
+    <target name="aar_axis2_jaxws" depends="compile">
+        <jar jarfile="${output.dir}/stockservice.aar" update="false">
+            <fileset dir="${class.dir}"
+                     includes="**/axis2/jaxws/StockQuoteService.class, **/axis2/jaxws/StockQuoteServiceImpl.class "/>
+            <fileset dir="${basedir}/conf/axis2_jaxws" includes="**/services.xml"/>
+        </jar>
+    </target>
+
+    <!-- Axis2 - Generating the aar file for Axis2 axiom demo -->
+    <target name="aar_axis2_axiom" depends="compile">
+        <jar jarfile="${output.dir}/gradeservice.aar" update="false">
+            <fileset dir="${class.dir}"
+                     includes="**/axis2/axiom/GradeManagerService.class, **/axis2/axiom/GradeManagerServiceImpl.class "/>
+            <fileset dir="${basedir}/conf/axis2_axiom" includes="**/services.xml"/>
+        </jar>
+    </target>
+
+</project>

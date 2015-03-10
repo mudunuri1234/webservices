@@ -1,0 +1,7 @@
+<service name="GradeManagerService">
+  <description>The axis2 AXIOM web service</description>
+  <messageReceivers>
+    <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.apache.axis2.receivers.RawXMLINOutMessageReceiver"/>
+  </messageReceivers>
+  <parameter name="ServiceClass" locked="false">com.learning.ws.axis2.axiom.GradeManagerServiceImpl</parameter>
+</service>

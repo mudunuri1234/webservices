@@ -1,0 +1,44 @@
+<wsdl:definitions name="EmployeeService"
+                  targetNamespace="http://axis2.ws.learning.com/provider/employeeService/employee/2012/"
+                  xmlns="http://axis2.ws.learning.com/provider/employeeService/employee/2012/"
+                  xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:msg1="http://axis2.ws.learning.com/provider/employeeService/employee/getEmployeeAddress/2012/">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://axis2.ws.learning.com/provider/employeeService/employee/getEmployeeAddress/2012/"
+                       schemaLocation="employee2012.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="GetEmployeeAddressRequestMessage">
+        <wsdl:part name="getEmployeeAddress" element="msg1:getEmployeeAddress"/>
+    </wsdl:message>
+    <wsdl:message name="GetEmployeeAddressResponseMessage">
+        <wsdl:part name="getEmployeeAddressResponse" element="msg1:getEmployeeAddressResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="EmployeeAddressPortType">
+        <wsdl:operation name="getEmployeeAddress">
+            <wsdl:input message="GetEmployeeAddressRequestMessage"/>
+            <wsdl:output message="GetEmployeeAddressResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="EmployeeAddressSoapBinding" type="EmployeeAddressPortType">
+        <soapbind:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getEmployeeAddress">
+            <soapbind:operation soapAction="http://axis2.ws.learning.com/provider/employeeService/employee/getEmployeeAddress/2012/" style="document"/>
+            <wsdl:input>
+                <soapbind:body parts="getEmployeeAddress" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soapbind:body parts="getEmployeeAddressResponse" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="employeeService">
+        <wsdl:port name="EmployeeService" binding="EmployeeAddressSoapBinding">
+            <soapbind:address location="http://localhost:8080/flexweb/services/employeeService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

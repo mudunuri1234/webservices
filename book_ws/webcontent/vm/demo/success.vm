@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title> Welcome to Pet Search </title>
+    <script type="text/javascript">
+    </script>
+</head>
+<body bgcolor="grey">
+<form method="post">
+
+    This is a success page........
+    <div> $name </div>
+
+    <div>
+        #foreach($name in $nameList)
+            $!name   <br/>
+        #end
+    </div>
+
+</form>
+</body>
+</html>

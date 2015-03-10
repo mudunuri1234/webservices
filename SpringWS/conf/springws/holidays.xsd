@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:hol="http://springws.ws.learning.com/holidays/schemas"
+           elementFormDefault="unqualified"
+           targetNamespace="http://springws.ws.learning.com/holidays/schemas">
+
+    <xs:element name="getHolidayRequest" type="hol:HolidayRequest"/>
+
+    <xs:element name="getHolidayResponse" type="hol:HolidayResponse"/>
+
+    <xs:complexType name="HolidayRequest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="year" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="HolidayResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="holidays" type="hol:holidays"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="holidays">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="holiday" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<!-- Enable Annotation based configuration. -->
+	<context:annotation-config/>
+
+    <context:component-scan base-package="com.learning">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>    
+
+    <context:component-scan base-package="com.learning.javaee.controller"/>    
+
+ 	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath"><value>/</value></property>
+        <property name="configLocation">
+            <value>/WEB-INF/velocity.properties</value>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="com.learning.common.velocity.VelocityToolboxViewResolver">
+        <property name="cache"><value>true</value></property>
+        <property name="prefix"><value></value></property>
+        <property name="suffix"><value>.vm</value></property>
+        <property name="contentType"><value>text/html</value></property>
+        <property name="requestContextAttribute" value="rc"/>
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="exposeSessionAttributes" value="true" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="toolboxConfigLocation"><value>/WEB-INF/toolbox.xml</value></property>
+    </bean>
+
+    <!--<bean class="com.learning.javaee.rest.ParameterizedUrlHandlerMapping">-->
+        <!--<property name="alwaysUseFullPath" value="true"/>-->
+        <!--<property name="mappings">-->
+            <!--<props>-->
+                <!--<prop key="/demo/grades/*">allGrades</prop>-->
+                 <!--<prop key="/contents/lessons/*">allLessons</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean name="allGrades" class="com.learning.javaee.controller.RestDemoController"/>-->
+
+</beans>

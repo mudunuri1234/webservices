@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:stock="http://springws.ws.learning.com/stock/schemas"
+           elementFormDefault="unqualified"
+           targetNamespace="http://springws.ws.learning.com/stock/schemas">
+
+    <xs:element name="getStockRequest" type="stock:StockRequest"/>
+
+    <xs:element name="getStockResponse" type="stock:StockResponse"/>
+
+    <xs:complexType name="StockRequest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="symbol" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="StockResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="stock:stockdata"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="stockdata">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="todayPrice" type="xs:string"/>
+            <xs:element minOccurs="0" name="change" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

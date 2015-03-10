@@ -1,0 +1,11 @@
+<service name="employeeDmographicService">
+    <description>The axis2 WSDL2Java Demographic web service</description>
+    <messageReceivers>
+        <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.learning.ws.axis2.provider.employeedemographicservice.demographic._2012.EmployeeDemographicServiceMessageReceiverInOut"/>
+    </messageReceivers>
+    <parameter name="ServiceClass" locked="false">com.learning.ws.axis2.provider.employeedemographicservice.demographic._2012.EmployeeDemographicServiceSkeleton</parameter>
+    <operation name="getDemographicInformation" mep="http://www.w3.org/2004/08/wsdl/in-out" namespace="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/2012/">
+        <actionMapping>http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/</actionMapping>
+        <outputActionMapping>http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/2012/EmployeeDemographicPortType/getDemographicInformation</outputActionMapping>
+    </operation>
+</service>

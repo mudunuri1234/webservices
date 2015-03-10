@@ -1,0 +1,74 @@
+<project name="Spring-WS Book demo" basedir=".." default="compile">
+
+    <property name="build.dir" value="${basedir}/build"/>
+    <property file="${build.dir}/build.properties"/>
+
+    <property name="war-name" value="springws.war"/>
+
+    <property name="library.dir" value="${basedir}/lib"/>
+    <property name="target.dir" value="${basedir}/target"/>
+    <property name="source.dir" value="${basedir}/src"/>
+    <property name="class.dir" value="${basedir}/classes"/>
+    <property name="output.dir" value="${basedir}/output1"/>
+    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="web.dir" value="${basedir}/webcontent"/>
+    <property name="velocity.dir" value="${web.dir}/vm"/>
+    <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
+    <property name="conf.spring.dir" value="${basedir}/conf/spring"/>
+
+    <path id="build.classpath">
+        <fileset dir="${library.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${class.dir}"/>
+        <mkdir dir="${output.dir}"/>
+        <filter token="contextApp" value="${context.path}"/>
+
+        <condition property="contextRoot" value="${context.path}">
+            <not>
+                <equals arg1="" arg2="${context.path}"/>
+            </not>
+        </condition>
+        <condition property="contextRoot" value="/">
+            <equals arg1="" arg2="${context.path}"/>
+        </condition>
+
+        <filter token="contextRoot" value="${contextRoot}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac debug="on" nowarn="on" deprecation="true" destdir="${class.dir}" includes="**/*.java"
+               srcdir="${source.dir}" source="1.6" target="1.6">
+            <classpath>
+                <path refid="build.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="clean" description="delete all compiled objects">
+        <delete dir="${class.dir}"/>
+        <delete dir="${output.dir}"/>
+    </target>
+
+    <target name="war" depends="compile">
+        <war warfile="${output.dir}/${war-name}" update="false" webxml="${webinf.dir}/web.xml">
+            <webinf dir="${webinf.dir}" includes="*" excludes="web.xml"/>
+            <webinf dir="${basedir}/conf/spring" includes="*"/>
+            <webinf dir="${basedir}/conf/springws" includes="**/*.xsd"/>
+            <webinf dir="${basedir}/conf" includes="**/*.wsdl"/>
+            <classes dir="${class.dir}" includes="**/*.class, *.xml"/>
+            <classes dir="${resources.dir}" includes="*.properties"/>
+            <classes dir="${build.dir}" includes="version.properties"/>
+            <lib dir="${library.dir}" includes="*.jar" excludes="log4j.jar"/>
+
+            <fileset dir="${velocity.dir}"/>
+            <fileset dir="${web.dir}" includes="images/**"/>
+            <fileset dir="${web.dir}" includes="js/**"/>
+            <fileset dir="${web.dir}" includes="css/**"/>
+        </war>
+    </target>
+
+</project>

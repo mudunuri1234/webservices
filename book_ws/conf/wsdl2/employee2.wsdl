@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.w3.org/ns/wsdl"
+             targetNamespace="http://jaxws.ws.learning.com/2012/wsdl/empService"
+             xmlns:tns="http://jaxws.ws.learning.com/2012/wsdl/empService"
+             xmlns:empns="http://jaxws.ws.learning.com/2012/schemas/empService"
+             xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
+             xmlns:soap="http://www.w3.org/2003/05/soap-envelope/"
+             xmlns:wsdlx="http://www.w3.org/ns/wsdl-extensions">
+
+    <documentation>
+        This document describes the employee webservice.
+    </documentation>
+
+    <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   targetNamespace="http://jaxws.ws.learning.com/2012/schemas/empService"
+                   xmlns="http://jaxws.ws.learning.com/2012/schemas/empService">
+
+            <xs:complexType name="employee">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="employeeId" type="xs:string"/>
+                    <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+                    <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+                    <xs:element minOccurs="0" name="address" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:element name="getEmployee" type="getEmployee"/>
+            <xs:complexType name="getEmployee">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="employeeId" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:element name="EmployeeFault" type="EmployeeFault"/>
+            <xs:complexType name="EmployeeFault">
+                <xs:sequence/>
+            </xs:complexType>
+
+            <xs:element name="getEmployeeResponse" type="getEmployeeResponse"/>
+            <xs:complexType name="getEmployeeResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="return" type="employee"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </types>
+
+    <interface name="EmployeeServiceInterface">
+        <fault name="employeeFault" element="empns:EmployeeFault"/>
+        <operation name="getEmployee"
+                   pattern="http://www.w3.org/ns/wsdl/in-out"
+                   style="http://www.w3.org/ns/wsdl/style/iri"
+                   wsdlx:safe="true">
+            <input messageLabel="In" element="empns:getEmployee"/>
+            <output messageLabel="Out" element="empns:getEmployeeResponse"/>
+            <outfault messageLabel="Out" ref="tns:employeeFault" />
+        </operation>
+    </interface>
+
+    <binding name="employeeServiceSOAPBinding"
+             interface="tns:EmployeeServiceInterface"
+             type="http://www.w3.org/ns/wsdl/soap"
+             wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/">
+        <fault ref="tns:employeeFault" wsoap:code="soap:Sender"/>
+        <operation ref="tns:getEmployee" wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+    </binding>
+
+    <service name="employeeService" interface="tns:EmployeeServiceInterface">
+        <endpoint name="employeeServiceEndpoint"
+                  binding="tns:employeeServiceSOAPBinding"
+                  address ="http://localhost:8080/wsbook/services/employeeService"/>
+    </service>
+
+</description>

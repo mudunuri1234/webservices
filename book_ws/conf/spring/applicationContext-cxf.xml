@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:cxf="http://cxf.apache.org/core"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 					http://www.springframework.org/schema/beans/spring-beans.xsd
+ 					http://cxf.apache.org/jaxrs
+                    http://cxf.apache.org/schemas/jaxrs.xsd
+                    http://cxf.apache.org/core
+                    http://cxf.apache.org/schemas/core.xsd ">
+
+  <!-- Loads CXF modules from cxf.jar file -->  
+  <import resource="classpath:META-INF/cxf/cxf.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+  <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml"/>
+
+  <jaxrs:server id="gradeservice" address="/">
+      <jaxrs:serviceBeans>
+          <ref bean="gradeManagerImpl"/>
+          <ref bean="restDataManagerImpl"/>
+          <ref bean="accessManagerImpl"/>
+          <ref bean="stockServiceImpl"/>
+          <ref bean="newStockServiceImpl"/>
+          <ref bean="documentManagerImpl"/>
+          <ref bean="bookServiceImpl"/>
+      </jaxrs:serviceBeans>
+
+      <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+      </jaxrs:extensionMappings>
+
+      <jaxrs:features>
+           <cxf:logging/>
+      </jaxrs:features>
+  </jaxrs:server>
+
+  <bean id="gradeManagerImpl" class="com.learning.ws.rest.GradeManagerImpl"/>
+
+  <bean id="restDataManagerImpl" class="com.learning.ws.rest.RestDataManagerImpl"/>
+
+  <bean id="accessManagerImpl" class="com.learning.ws.rest.AccessManagerImpl"/>
+
+  <bean id="stockServiceImpl" class="com.learning.ws.rest.StockServiceImpl"/>
+
+  <bean id="newStockServiceImpl" class="com.learning.ws.rest.NewStockServiceImpl"/>
+
+  <bean id="documentManagerImpl" class="com.learning.ws.rest.DocumentManagerImpl"/>
+
+  <bean id="bookServiceImpl" class="com.learning.ws.rest.BookServiceImpl"/>
+
+</beans>

@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>Welcome to SP-3 Demo</title>
+<script type="text/javascript">
+     function callLoginForm() {
+        document.forms[0].action="/spdemo/demo/login.action";
+        document.forms[0].submit();
+     }
+</script>
+</head>
+<body bgcolor="pink">
+    <form action="" method="post">
+        <table align="center">
+           <tr>
+               <td><b><a href="javascript:callLoginForm()">1.Log In</a></b></td>
+           </tr>
+        </table>
+    </form>
+</body>
+</html>

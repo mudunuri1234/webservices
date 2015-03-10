@@ -1,0 +1,44 @@
+<wsdl:definitions name="EmployeeDemographicService"
+                  targetNamespace="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/2012/"
+                  xmlns="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/2012/"
+                  xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:msg1="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/"
+                       schemaLocation="demographics2012.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="GetEmployeeDemographicRequestMessage">
+        <wsdl:part name="getDemographicInformation" element="msg1:getDemographicInformation"/>
+    </wsdl:message>
+    <wsdl:message name="GetEmployeeDemographicResponseMessage">
+        <wsdl:part name="getDemographicInformationResponse" element="msg1:getDemographicInformationResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="EmployeeDemographicPortType">
+        <wsdl:operation name="getDemographicInformation">
+            <wsdl:input message="GetEmployeeDemographicRequestMessage"/>
+            <wsdl:output message="GetEmployeeDemographicResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="EmployeeDemographicSoapBinding" type="EmployeeDemographicPortType">
+        <soapbind:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getDemographicInformation">
+            <soapbind:operation soapAction="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/" style="document"/>
+            <wsdl:input>
+                <soapbind:body parts="getDemographicInformation" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soapbind:body parts="getDemographicInformationResponse" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="employeeDemographicService">
+        <wsdl:port name="EmployeeDemographicService" binding="EmployeeDemographicSoapBinding">
+            <soapbind:address location="http://localhost:8080/flexweb/services/employeeDemographicService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

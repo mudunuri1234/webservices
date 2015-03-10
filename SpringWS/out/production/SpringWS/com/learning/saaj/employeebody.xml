@@ -1,0 +1,3 @@
+<ns1:getEmployeeRequest xmlns:ns1="http://saaj.ws.learning.com/">
+    <employeeId>666666</employeeId>
+</ns1:getEmployeeRequest>

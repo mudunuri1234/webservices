@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title> Welcome to Login Page </title>
+    <script type="text/javascript">
+        function checkLogin(base) {
+            document.forms[0].action = base+"/demo/validLogin.action";
+            document.forms[0].submit();
+        }
+    </script>
+</head>
+<body bgcolor="grey">
+<form method="post">
+    <span style="font-size:100%;margin-left:550px;">
+        <b>Welcome to Login Page - $Name</b>
+    </span>
+    <table>
+        <tr>
+            <td> <label><b>User Id:</b></label></td>
+            <td><input type="text" name="userName" id="userName" value='$!user.userName' size="40"/> $!allErrors.getFieldError("userName").getDefaultMessage()</td>
+        </tr>
+        <tr>
+            <td> <label><b>Password:</b></label></td>
+            <td><input type="text" name="password" id="password" value='$!user.password' size="40"/> $!allErrors.getFieldError("password").getDefaultMessage()</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" name="LogIn" value="LogIn" onclick="checkLogin('$base')"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

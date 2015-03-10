@@ -1,0 +1,10 @@
+<service name="stockQuoteService">
+  <description>The axis2 JAX-WS web service</description>
+  <module ref="logging"/>
+  <messageReceivers>
+    <!--<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"/>  -->
+    <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    <!--<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.apache.axis2.receivers.RawXMLINOutMessageReceiver"/>-->
+  </messageReceivers>
+  <parameter name="ServiceClass" locked="false">com.learning.ws.axis2.jaxws.StockQuoteServiceImpl</parameter>
+</service>

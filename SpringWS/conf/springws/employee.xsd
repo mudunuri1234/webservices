@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:emp="http://springws.ws.learning.com/emp/schemas"
+           elementFormDefault="unqualified"
+           targetNamespace="http://springws.ws.learning.com/emp/schemas">
+
+    <xs:element name="getEmployeeRequest" type="emp:EmployeeRequest"/>
+
+    <xs:element name="getEmployeeResponse" type="emp:EmployeeResponse"/>
+
+    <xs:complexType name="EmployeeRequest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="employeeId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EmployeeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="emp:employee"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="employee">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="nameInfo" type="emp:nameInfo"/>
+            <xs:element minOccurs="0" name="homeAddress" type="emp:homeAddress"/>
+            <xs:element minOccurs="0" name="emailAddress" type="emp:emailAddress"/>
+            <xs:element minOccurs="0" name="phones" type="emp:phones"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="nameInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:string"/>
+            <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+            <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="homeAddress">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="aptNumber" type="xs:string"/>
+            <xs:element minOccurs="0" name="streetName" type="xs:string"/>
+            <xs:element minOccurs="0" name="city" type="xs:string"/>
+            <xs:element minOccurs="0" name="zipcode" type="xs:string"/>
+            <xs:element minOccurs="0" name="state" type="xs:string"/>
+            <xs:element minOccurs="0" name="country" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="emailAddress">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="personal" type="xs:string"/>
+            <xs:element minOccurs="0" name="office" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="phones">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="personal" type="xs:string"/>
+            <xs:element minOccurs="0" name="office" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

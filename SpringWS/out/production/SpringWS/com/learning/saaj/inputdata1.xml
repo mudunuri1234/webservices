@@ -1,0 +1,3 @@
+<tns:getGradeSubjects xmlns:tns="http://composite.jaxws.ws.learning.com/">
+    <arg0>1</arg0>
+</tns:getGradeSubjects>

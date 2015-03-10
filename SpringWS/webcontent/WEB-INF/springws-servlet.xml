@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sws="http://www.springframework.org/schema/web-services"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/web-services
+       http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.learning.springws"/>
+    <sws:annotation-driven/>
+
+    <!--<sws:dynamic-wsdl id="holiday"-->
+    <!--portTypeName="HumanResource"-->
+    <!--locationUri="/services/holidayService/"-->
+    <!--targetNamespace="http://springws.learning.com/hr/definitions">-->
+    <!--<sws:xsd location="/WEB-INF/hr.xsd"/>-->
+    <!--</sws:dynamic-wsdl>-->
+
+    <sws:dynamic-wsdl id="employee"
+                      portTypeName="EmployeePortType"
+                      locationUri="/services/employeeService/"
+                      targetNamespace="http://springws.learning.com/emp/definitions">
+        <sws:xsd location="/WEB-INF/employee.xsd"/>
+    </sws:dynamic-wsdl>
+
+    <sws:dynamic-wsdl id="holidays"
+                      portTypeName="HolidayPortType"
+                      locationUri="/services/holidayService/"
+                      targetNamespace="http://springws.learning.com/holidays/definitions">
+        <sws:xsd location="/WEB-INF/holidays.xsd"/>
+    </sws:dynamic-wsdl>
+
+    <sws:dynamic-wsdl id="stockchange"
+                      portTypeName="StockChangePortType"
+                      locationUri="/services/stockService/"
+                      targetNamespace="http://springws.ws.learning.com/stock/definitions">
+        <sws:xsd location="/WEB-INF/stockchange.xsd"/>
+    </sws:dynamic-wsdl>
+
+    <sws:interceptors>
+        <sws:payloadRoot namespaceUri="http://springws.ws.learning.com/emp/schemas">
+            <bean class="com.learning.springws.LogMessageHandler"/>
+        </sws:payloadRoot>
+        <!--<sws:soapAction value="http://springws.ws.learning.com/SoapAction">-->
+        <!--<bean class="com.learning.springws.LogMessageHandler"/>-->
+        <!--</sws:soapAction>-->
+    </sws:interceptors>
+
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>com.learning.springws.StockRequest</value>
+                <value>com.learning.springws.StockResponse</value>
+            </list>
+        </property>
+        <property name="schema" value="/WEB-INF/stockchange.xsd"/>
+    </bean>
+
+    <bean id="marshallingPayloadMethodProcessor"
+          class="org.springframework.ws.server.endpoint.adapter.method.MarshallingPayloadMethodProcessor">
+        <constructor-arg ref="jaxb2Marshaller"/>
+        <constructor-arg ref="jaxb2Marshaller"/>
+    </bean>
+
+    <bean id="defaultMethodEndpointAdapter"
+          class="org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter">
+        <property name="methodArgumentResolvers">
+            <list>
+                <ref bean="marshallingPayloadMethodProcessor"/>
+            </list>
+        </property>
+        <property name="methodReturnValueHandlers">
+            <list>
+                <ref bean="marshallingPayloadMethodProcessor"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

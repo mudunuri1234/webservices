@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://axis2.ws.learning.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://axis2.ws.learning.com/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://axis2.ws.learning.com">
+    <wsdl:documentation>employeeService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax23="http://axis2.ws.learning.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://axis2.ws.learning.com">
+            <xs:import namespace="http://axis2.ws.learning.com/xsd"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="EmployeeFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="EmployeeFault" nillable="true" type="ax21:EmployeeFault"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getEmployeeAddress">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getEmployeeAddressResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getEmployee">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getEmployeeResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax21:Employee"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://axis2.ws.learning.com" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://axis2.ws.learning.com/xsd">
+            <xs:import namespace="http://axis2.ws.learning.com"/>
+            <xs:complexType name="EmployeeFault">
+                <xs:complexContent>
+                    <xs:extension base="ax22:Exception">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Employee">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getEmployeeRequest">
+        <wsdl:part name="parameters" element="ns:getEmployee"/>
+    </wsdl:message>
+    <wsdl:message name="getEmployeeResponse">
+        <wsdl:part name="parameters" element="ns:getEmployeeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="EmployeeFault">
+        <wsdl:part name="parameters" element="ns:EmployeeFault"/>
+    </wsdl:message>
+    <wsdl:message name="getEmployeeAddressRequest">
+        <wsdl:part name="parameters" element="ns:getEmployeeAddress"/>
+    </wsdl:message>
+    <wsdl:message name="getEmployeeAddressResponse">
+        <wsdl:part name="parameters" element="ns:getEmployeeAddressResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="employeeServicePortType">
+        <wsdl:operation name="getEmployee">
+            <wsdl:input message="ns:getEmployeeRequest" wsaw:Action="urn:getEmployee"/>
+            <wsdl:output message="ns:getEmployeeResponse" wsaw:Action="urn:getEmployeeResponse"/>
+            <wsdl:fault message="ns:EmployeeFault" name="EmployeeFault" wsaw:Action="urn:getEmployeeEmployeeFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getEmployeeAddress">
+            <wsdl:input message="ns:getEmployeeAddressRequest" wsaw:Action="urn:getEmployeeAddress"/>
+            <wsdl:output message="ns:getEmployeeAddressResponse" wsaw:Action="urn:getEmployeeAddressResponse"/>
+            <wsdl:fault message="ns:EmployeeFault" name="EmployeeFault" wsaw:Action="urn:getEmployeeAddressEmployeeFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="employeeServiceSoap11Binding" type="ns:employeeServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getEmployee">
+            <soap:operation soapAction="urn:getEmployee" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="EmployeeFault">
+                <soap:fault use="literal" name="EmployeeFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getEmployeeAddress">
+            <soap:operation soapAction="urn:getEmployeeAddress" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="EmployeeFault">
+                <soap:fault use="literal" name="EmployeeFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="employeeServiceSoap12Binding" type="ns:employeeServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getEmployee">
+            <soap12:operation soapAction="urn:getEmployee" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="EmployeeFault">
+                <soap12:fault use="literal" name="EmployeeFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getEmployeeAddress">
+            <soap12:operation soapAction="urn:getEmployeeAddress" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="EmployeeFault">
+                <soap12:fault use="literal" name="EmployeeFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="employeeServiceHttpBinding" type="ns:employeeServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getEmployee">
+            <http:operation location="employeeService/getEmployee"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getEmployee"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getEmployee"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getEmployeeAddress">
+            <http:operation location="employeeService/getEmployeeAddress"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getEmployeeAddress"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getEmployeeAddress"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="employeeService">
+        <wsdl:port name="employeeServiceHttpSoap11Endpoint" binding="ns:employeeServiceSoap11Binding">
+            <soap:address location="http://localhost:8080/flexweb/services/employeeService.employeeServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="employeeServiceHttpSoap12Endpoint" binding="ns:employeeServiceSoap12Binding">
+            <soap12:address location="http://localhost:8080/flexweb/services/employeeService.employeeServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="employeeServiceHttpEndpoint" binding="ns:employeeServiceHttpBinding">
+            <http:address location="http://localhost:8080/flexweb/services/employeeService.employeeServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

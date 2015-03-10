@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://axis2.ws.learning.com/provider/employeeDemographicService/demographic/getDemographicInformation/2012/"
+           elementFormDefault="unqualified"
+           attributeFormDefault="unqualified" version="1.0">
+    <xs:complexType name="EmployeeDemographicsRequest_Type">
+		<xs:sequence>
+			<xs:element name="inputData" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="getDemographicInformation" type="EmployeeDemographicsRequest_Type">
+		<xs:annotation>
+			<xs:documentation>Request of the Demographics info service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EmployeeDemographicOutput_Type">
+		<xs:sequence>
+			<xs:element name="ouputData" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmployeeDemographicResponse_Type">
+		<xs:sequence>
+			<xs:element name="info" type="EmployeeDemographicOutput_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The information returned within the response</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="getDemographicInformationResponse" type="EmployeeDemographicResponse_Type">
+		<xs:annotation>
+			<xs:documentation>Results of the Employee Demographics service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

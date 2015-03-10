@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>REST demo for GET, POST, DELETE and PUT</title>
+    <script type="text/javascript">
+        function submitUserForm() {
+            document.forms[0].action = "/wsbook/services/document/deleteReplace/1";
+            document.forms[0].submit();
+            alert('end');
+        }
+    </script>
+</head>
+<body>
+<form method="post">
+    <table align="center">
+        <tr>
+            <td><label><b>User Id:</b></label></td>
+            <td><input type="text" name="userName" id="userName" value="" size="40"/></td>
+        </tr>
+        <tr>
+            <td><label><b>Password:</b></label></td>
+            <td><input type="text" name="password" id="password" value="" size="40"/></td>
+        </tr>
+        <tr>
+            <td><b><a href="javascript:submitUserForm()">1.Log In</a></b></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
